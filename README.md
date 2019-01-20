@@ -9,3 +9,5 @@ This cache uses LinkedHashMap which operates exactly in this way.
 1. Implement LruHashMap.getEldestEntry - get the oldest entry in the linked hash-map
 2. Implement LruCache.get LruCache.put and LruCache.remove
 3. Run all tests under LruCacheTest successfully
+
+You can only use java docs..
