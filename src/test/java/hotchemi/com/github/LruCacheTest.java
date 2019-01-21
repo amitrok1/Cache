@@ -159,6 +159,7 @@ public class LruCacheTest {
 
     @Test
     public void clear() {
+        cache = new LruCache<>(3);
         cache.put("a", "a");
         cache.put("b", "b");
         cache.put("c", "c");
