@@ -35,11 +35,13 @@ public class LruCache<K, V> implements Cache<K, V> {
 
     @Override
     public final V put(K key, V value) {
+        //Your code here
         return null;
     }
 
     @Override
     public final V remove(K key) {
+        //Your code here
         return null;
     }
 
