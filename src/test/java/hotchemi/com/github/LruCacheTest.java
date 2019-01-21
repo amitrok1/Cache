@@ -105,7 +105,6 @@ public class LruCacheTest {
 
     @Test
     public void concurrentLogic() throws InterruptedException {
-        long startTestTime = System.currentTimeMillis();
         cache = new LruCache<>(1_000);
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -123,9 +122,7 @@ public class LruCacheTest {
 
         countDownLatch.await(1, TimeUnit.MINUTES); // waits for executions to be over
 
-        int memorySize = cache.getMemorySize();
         Assert.assertTrue(cache.getMemorySize() == 1200);
-        long delta = System.currentTimeMillis() - startTestTime;
     }
 
     @Test
@@ -139,50 +136,11 @@ public class LruCacheTest {
     }
 
     @Test
-    public void cannotPutNullKey() {
-        try {
-            cache.put(null, "a");
-            fail();
-        } catch (NullPointerException expected) {
-            // nothing
-        }
-    }
-
-    @Test
-    public void cannotPutNullValue() {
-        try {
-            cache.put("a", null);
-            fail();
-        } catch (NullPointerException expected) {
-            // nothing
-        }
-    }
-
-    @Test
     public void evictionWithSingletonCache() {
         LruCache<String, String> cache = new LruCache<>(1);
         cache.put("a", A);
         cache.put("b", B);
         assertSnapshot(cache, "b", B);
-    }
-
-    @Test
-    public void removeOneItem() {
-        LruCache<String, String> cache = new LruCache<>(1);
-        cache.put("a", A);
-        cache.put("b", B);
-        assertNull(cache.remove("a"));
-        assertSnapshot(cache, "b", B);
-    }
-
-    @Test
-    public void cannotRemoveNullKey() {
-        try {
-            cache.remove(null);
-            fail();
-        } catch (NullPointerException expected) {
-            // nothing
-        }
     }
 
     /**
@@ -191,21 +149,12 @@ public class LruCacheTest {
      */
     @Test
     public void putCauseEviction() {
+        cache = new LruCache<>(3);
         cache.put("a", A);
         cache.put("b", B);
         cache.put("c", C);
         cache.put("b", D);
         assertSnapshot(cache, "a", A, "c", C, "b", D);
-    }
-
-    @Test
-    public void throwsWithNullKey() {
-        try {
-            cache.get(null);
-            fail("Expected NullPointerException");
-        } catch (NullPointerException e) {
-            // nothing
-        }
     }
 
     @Test
